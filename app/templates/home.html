@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Hi, {{ current_user.username }}!</h2>
+    <h1>Similar tokens</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.token.label }}<br>
+            {{ form.token(size=32) }}<br>
+            {% for error in form.token.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.limit.label }}<br>
+            {{ form.limit(size=32) }}<br>
+            {% for error in form.limit.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>        
+        <p><input type="submit" name="search" value="Search"></p>
+
+    <div><p>{{tokens}}</div>
+
+        <div>
+            <table id='result' border='1'>
+	        <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Token</th>
+                        <th>Similarity score</th>
+                        <th>Freq count</th>
+                        <th>Choose</th>
+                    </tr>
+                </thead>
+            {% if list %}
+                <tbody>
+                    {% for object in list %} 
+                    <tr>
+                        <input type="hidden" name="vars" value={{object[1]}}>
+                        <td>{{object[0]}}</td>
+                        <td>{{object[1]}}</td>
+                        <td>{{object[2]}}</td>
+                        <td>{{object[3]}}</td>
+                        {% if object[1] in tokens %}
+                            <td><input type="checkbox" id="id_{{object[1]}}" name="values" value="{{object[1]}}" checked></td>
+                        {% elif object[1] not in tokens %}
+                            <td><input type="checkbox" id="id_{{object[1]}}" name="values" value="{{object[1]}}"></td>
+                        {% endif %}        
+                     </tr>
+                     {% endfor %}        
+                </tbody>
+            {% endif %}
+            </table>
+        </div>
+        {{ form.hidden_tag() }}            
+        <p><input type="submit" name="submit" value="Submit"></p>
+    </form>
+
+    <h3>In Sianipar</h3>
+    <div>
+        <table id='result' border='1'>
+	    <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Token</th>
+                    <th>Similarity score</th>
+                    <th>Freq count</th>
+                </tr>
+            </thead>
+            {% if objects %}
+            <tbody>
+                {% for object in objects %} 
+                <tr>
+                    <td>{{object[0]}}</td>
+                    <td>{{object[1]}}</td>
+                    <td>{{object[2]}}</td>
+                    <td>{{object[3]}}</td>
+                </tr>
+                {% endfor %}        
+            </tbody>
+            {% endif %}
+        </table>
+    </div>
+
+{% endblock %}

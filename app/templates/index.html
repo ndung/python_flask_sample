@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Token list</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.limit.label }}<br>
+            {{ form.limit(size=32) }}<br>
+            {% for error in form.limit.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>        
+        <p>{{ form.submit() }}</p>
+    </form>
+    <div>
+        <table id='result' border='1'>
+	    <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Token</th>
+                    <th>Freq count</th>
+                </tr>
+            </thead>
+            {% if list %}
+            <tbody>
+                {% for object in list %} 
+                <tr>
+                    <td>{{object[0]}}</td>
+                    <td>{{object[1]}}</td>
+                    <td>{{object[2]}}</td>
+                </tr>
+                {% endfor %}        
+            </tbody>
+            {% endif %}
+        </table>
+    </div>
+    <h3>In Sianipar</h3>
+    <div>
+        <table id='result' border='1'>
+	    <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Token</th>
+                    <th>Freq count</th>
+                </tr>
+            </thead>
+            {% if objects %}
+            <tbody>
+                {% for object in objects %} 
+                <tr>
+                    <td>{{object[0]}}</td>
+                    <td>{{object[1]}}</td>
+                    <td>{{object[2]}}</td>
+                </tr>
+                {% endfor %}        
+            </tbody>
+            {% endif %}
+        </table>
+    </div>
+
+{% endblock %}
